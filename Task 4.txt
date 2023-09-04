@@ -1,0 +1,69 @@
+/**
+ * You can edit, run, and share this code.
+ * play.kotlinlang.org
+ */
+fun main() {    
+    initDB()
+    println("Hello World")
+    // Test functions here
+}
+
+data class PaymentInfo(
+    val cardOwner: String,
+    val cardNumber: Int,
+    val cardCVV: Int
+)
+
+// Hint: accessing a property of a data class is as simple as using examplePaymentInfo.cardNumber to retrieve the Int value
+
+val storedCard1 = PaymentInfo("Bob", 22223333, 111)
+val storedCard2 = PaymentInfo("John", 11113333, 134)
+
+val invalidCard1 = PaymentInfo("", 11113333, 134)
+val invalidCard2 = PaymentInfo("", 11113333, 1222)
+
+// This database is treated as a global variable that we can access directly in addCardToDatabase
+val cardDataBase = mutableMapOf<Int, PaymentInfo>()
+
+// Don't change this function
+fun initDB() {
+    cardDataBase[storedCard1.cardNumber] = storedCard1
+    cardDataBase[storedCard2.cardNumber] = storedCard2
+}
+
+fun validInfo(paymentInfo: PaymentInfo): Boolean {
+    // Check if the card owner name is not blank.
+  if (paymentInfo.cardOwner.isEmpty()) {
+    return false
+  }
+
+  // Check if the card number is a number and 8 digits long.
+  if (paymentInfo.cardNumber.toString().length != 8) {
+    return false
+  }
+
+  // Check if the cvv code is a number and 3 digits long.
+  if (paymentInfo.cardCVV.toString().length != 3) {
+    return false
+  }
+
+  return true
+}
+
+fun addCardToDatabase(paymentInfo: PaymentInfo): Boolean {
+     // Create a mutable map to represent the database.
+  val database = mutableMapOf<Int, PaymentInfo>()
+
+  // Check if the card has already been added to the database.
+  if (database.containsKey(paymentInfo.cardNumber)) {
+    println("ERROR")
+    return false
+  }
+
+  // Add the card to the database.
+  database[paymentInfo.cardNumber] = paymentInfo
+
+  // Print a success message.
+  println("SUCCESS")
+  return true
+}
